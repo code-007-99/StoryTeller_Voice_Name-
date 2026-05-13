@@ -43,20 +43,20 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("Connected to Photon Master Server.");
-        Debug.Log("Joining Photon lobby...");
-        PhotonNetwork.JoinLobby();
     }
 
-    public override void OnJoinedLobby()
+    public void JoinGame()
     {
-        Debug.Log("Joined Lobby Success!");
+        if (!PhotonNetwork.IsConnectedAndReady)
+        {
+            Debug.LogError("Photon not ready yet!");
+            return;
+        }
 
         RoomOptions roomOptions = new RoomOptions();
         roomOptions.MaxPlayers = maxPlayers;
         roomOptions.IsVisible = true;
         roomOptions.IsOpen = true;
-
-        Debug.Log("Joining or creating room: " + testRoomName);
 
         PhotonNetwork.JoinOrCreateRoom(
             testRoomName,
